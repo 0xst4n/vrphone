@@ -13,7 +13,7 @@ open main.exe, enter the IP of your Phone and click launch.
 
 You need to have "ADB Debugging" and "ADB over network" enabled
 
-![enabling adb in android](img.png "Settings")
+<img src="img.png" height="650" />
 
 Take note of the IP in the settings, this is the one you'll also need when using VRPhone.
 
