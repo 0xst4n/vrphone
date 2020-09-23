@@ -1,9 +1,3 @@
-# Installing ADB & scrcpy
-Use elevated prompt:
-	
-	- choco install adb
-	- choco install scrcpy
-
 Get the latest release:
 
 https://github.com/StandB/vrphone/releases
@@ -26,7 +20,6 @@ pyinstaller main.spec
 ## TODO:
 - Installer for scrcpy including a shortcut
 - Seperate app to render window in VR (on hand, leg or toes)
-- Support for network streaming of screen
 
 ### Test video:
 Using XSOverlay to display the window
