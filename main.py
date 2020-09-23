@@ -1,7 +1,6 @@
-import os, subprocess
+import os, subprocess, sys
 import PySimpleGUI as sg
 
-INSTALL_TYPE = "CHOCO"
 
 ip = ''
 borderless = False
@@ -11,28 +10,26 @@ if (os.path.isfile('settings.txt')):
         ip = f.readline().rstrip()
         borderless = f.readline() == "True"
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
-
-sg.theme('DarkBlue3')	# Add a touch of color
+sg.theme('Reddit')	# Add a touch of color
 def launch(ip,borderless):
-    adb_binary = "adb"
-    scrcpy_binary = "scrcpy"
-    if INSTALL_TYPE == "LOCAL":
-        # TODO: navigate to scrcpy install dir
-        adb_binary = "./adb.exe"
-        scrcpy_binary = "./scrcpy.exe"
-        pass
-    else:
-        DETACHED_PROCESS = 0x08000000
-        subprocess.Popen([f"{adb_binary}", "connect", f"{ip}:5555"])
-        args = [f"{scrcpy_binary}", "-s", f"{ip}:5555", "-w", "-b2M", "-m800"]
-        if borderless:
-            args.append("--window-borderless")
-        cmd = subprocess.Popen(args, creationflags=DETACHED_PROCESS)
+    adb_binary = resource_path('scrcpy/adb.exe')
+    scrcpy_binary = resource_path('scrcpy/scrcpy.exe')
 
-layout = [  [sg.Text('Phone IP'), sg.InputText(ip)],
-            [sg.Checkbox('Window & border less', default=borderless)],
-            [sg.Button('Launch')] ]
+    DETACHED_PROCESS = 0x08000000
+    subprocess.Popen([f"{adb_binary}", "connect", f"{ip}:5555"], creationflags=DETACHED_PROCESS)
+    args = [f"{scrcpy_binary}", "-s", f"{ip}:5555", "-w", "-b2M", "-m800"]
+    if borderless:
+        args.append("--window-borderless")
+    cmd = subprocess.Popen(args, creationflags=DETACHED_PROCESS)
+
+layout = [  [sg.Text('Phone IP', font='Arial'), sg.InputText(ip)],
+            [sg.Checkbox('Window & border less', default=borderless, font='Arial')],
+            [sg.Button('Launch', size=(50,3), font=('Arial', 20))] ]
 
 window = sg.Window('VRPhone', layout)
 

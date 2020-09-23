@@ -21,7 +21,7 @@ When launching, you might have to trust your PC on the android device.
 
 
 ## Building:
-pyinstaller -F --windowed main.py
+pyinstaller main.spec
 
 ## TODO:
 - Installer for scrcpy including a shortcut
